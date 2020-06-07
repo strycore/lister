@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SyncList v-if="folder == 'todo'"/>
+    <SyncTodo v-if="folder == 'todo'"/>
     <SyncList v-if="folder == 'list'"/>
     <syncNote v-if="folder == 'note'" />
   </div>
@@ -9,11 +9,14 @@
 <script>
 import SyncList from './components/SyncList.vue'
 import SyncNote from './components/SyncNote.vue'
+import SyncTodo from './components/SyncTodo.vue'
+
 export default {
   name: 'App',
   components: {
     SyncList,
-    SyncNote
+    SyncNote,
+    SyncTodo
   },
   data: function () {
     return {
