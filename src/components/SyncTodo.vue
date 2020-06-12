@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import draggable from 'vuedraggable'
 import { getContent, updateContent } from '@/store/api'
 import TodoItem from '@/components/TodoItem'
@@ -74,20 +73,38 @@ export default {
     loadList () {
       getContent(this.folder, this.filename).then(response => {
         this.items = response.data.split('\n').filter(line => line.trim()).map((text, index) => {
-          return { text, position: index + 1 }
+          return { text, position: index }
         })
       })
     },
     saveTodos () {
       updateContent(this.folder, this.filename, this.items.map(item => item.text).join('\n'))
     },
-    onElementUpdate (element, event) {
-      element.text = event
+    // Return index of the first completed task
+    getLastCompletedTaskIndex (position) {
+      let completedTaskIndex = this.items.length + 1
       for (let i = 0; i < this.items.length; i++) {
-        if (this.items[i].position === element.position) {
-          Vue.set(this.items, i, element)
+        if (this.items[i].text.startsWith('x ') && this.items[i].position !== position && i <= completedTaskIndex) {
+          completedTaskIndex = i
         }
       }
+      return completedTaskIndex
+    },
+    onElementUpdate (element, newText) {
+      element.text = newText
+      const completedTaskIndex = this.getLastCompletedTaskIndex(element.position)
+      const items = this.items
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].position === element.position) {
+          if (newText.startsWith('x ')) {
+            items.splice(i, 1)
+            items.splice(completedTaskIndex - 1, 0, element)
+          } else {
+            items.splice(i, 1, element)
+          }
+        }
+      }
+      this.items = items
       this.saveTodos()
     }
   },

@@ -41,10 +41,6 @@ export default {
     }
   },
   methods: {
-    showEdit (row, event) {
-      console.log(row)
-      console.log(event)
-    },
     updateValue () {
       this.$emit('update', this.value)
       this.editMode = false

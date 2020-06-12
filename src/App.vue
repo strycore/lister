@@ -2,7 +2,8 @@
   <div id="app">
     <SyncTodo v-if="folder == 'todo'"/>
     <SyncList v-if="folder == 'list'"/>
-    <syncNote v-if="folder == 'note'" />
+    <SyncNote v-if="folder == 'note'" />
+    <SyncFolder v-if="folder == 'folder'" />
   </div>
 </template>
 
@@ -10,13 +11,15 @@
 import SyncList from './components/SyncList.vue'
 import SyncNote from './components/SyncNote.vue'
 import SyncTodo from './components/SyncTodo.vue'
+import SyncFolder from './components/SyncFolder.vue'
 
 export default {
   name: 'App',
   components: {
     SyncList,
     SyncNote,
-    SyncTodo
+    SyncTodo,
+    SyncFolder
   },
   data: function () {
     return {
@@ -25,7 +28,11 @@ export default {
   },
   created () {
     const path = this.$route.path.split('/')
-    this.folder = path[1]
+    if (path[2]) {
+      this.folder = path[1]
+    } else {
+      this.folder = 'folder'
+    }
   }
 }
 </script>
