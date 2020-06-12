@@ -21,11 +21,15 @@
       <todo-item
         v-for="element in items"
         :label="element.text"
+        :position="element.position"
         :key="element.position"
+        v-show="showCompleted || !element.text.startsWith('x ')"
         @update="onElementUpdate(element, $event)"
+        @totop="onToTop($event)"
       ></todo-item>
     </transition-group>
   </draggable>
+  <a href="#" @click.prevent="onToggleCompleted(event)" class="toggle-completed-link">{{toggleCompletedText}}</a>
 </div>
 </template>
 
@@ -48,7 +52,9 @@ export default {
       newText: '',
       items: [],
       dragging: false,
-      nextId: 4
+      nextId: 4,
+      showCompleted: true,
+      toggleCompletedText: 'Hide completed'
     }
   },
   created () {
@@ -63,7 +69,7 @@ export default {
   methods: {
     addNewItem () {
       if (!this.newText) return
-      this.items.push({
+      this.items.unshift({
         position: this.nextId++,
         text: this.newText
       })
@@ -106,6 +112,23 @@ export default {
       }
       this.items = items
       this.saveTodos()
+    },
+    onToggleCompleted () {
+      this.showCompleted = !this.showCompleted
+      if (this.showCompleted) {
+        this.toggleCompletedText = 'Hide completed'
+      } else {
+        this.toggleCompletedText = 'Show completed'
+      }
+    },
+    onToTop (position) {
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].position === position) {
+          const movedItem = this.items[i]
+          this.items.splice(i, 1)
+          this.items.unshift(movedItem)
+        }
+      }
     }
   },
   computed: {
@@ -159,5 +182,12 @@ ul {
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
+}
+.toggle-completed-link {
+  font-size: .9em;
+  text-decoration: none;
+  margin: 10px;
+  color: rgb(121, 121, 121);
+  border-bottom: 1px dotted rgb(121, 121, 121);
 }
 </style>
