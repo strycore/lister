@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/<folder>", methods=["GET"])
+@app.route("/api/<folder>", methods=["GET"])
 def list_folder(folder):
     """Lists the contents of a folder as return it as plain text"""
     folderpath = os.path.join(NOTES_DIR, folder)
@@ -20,7 +20,7 @@ def list_folder(folder):
     return Response(content, mimetype="application/text")
 
 
-@app.route("/<folder>/<filename>", methods=["GET"])
+@app.route("/api/<folder>/<filename>", methods=["GET"])
 def read_file(folder, filename):
     """Read the contents of a file and return it as plain text"""
     filepath = os.path.join(NOTES_DIR, folder, filename)
@@ -32,7 +32,7 @@ def read_file(folder, filename):
     return Response(content, mimetype="application/text")
 
 
-@app.route("/<folder>/<filename>", methods=["POST"])
+@app.route("/api/<folder>/<filename>", methods=["POST"])
 def write_file(folder, filename):
     """Write raw POST data to a text file"""
     with open(os.path.join(NOTES_DIR, folder, filename), "wb") as outfile:

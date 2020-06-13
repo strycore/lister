@@ -1,5 +1,5 @@
 import axios from 'axios'
-const BASE_URL = 'http://192.168.0.15:5000'
+const BASE_URL = 'http://lister.oceanside/api'
 
 export function listFolder (folder) {
   return axios({
