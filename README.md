@@ -17,7 +17,7 @@ based on the URL.
 
 Install dependencies:
 ```
-pip3 install -r config/requirements
+pip3 install -r config/requirements.pip
 ```
 
 Configure folders for notes and lists
