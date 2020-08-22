@@ -2,8 +2,13 @@
 node_modules
 /dist
 .venv
+notes
+
+# cache
+__pycache__
 
 # local env files
+.env
 .env.local
 .env.*.local
 

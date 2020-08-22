@@ -1,5 +1,5 @@
 import axios from 'axios'
-const BASE_URL = 'http://lister.oceanside/api'
+const BASE_URL = process.env.VUE_APP_SERVER_URL
 
 export function listFolder (folder) {
   return axios({

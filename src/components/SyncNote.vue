@@ -28,12 +28,12 @@ export default {
     this.loadContent()
   },
   methods: {
-    loadContent: function () {
+    loadContent () {
       getContent(this.folder, this.filename).then(response => {
         this.content = response.data
       })
     },
-    saveContent: function () {
+    saveContent () {
       updateContent(this.folder, this.filename, this.content)
     }
   },
