@@ -1,8 +1,11 @@
 """Server for file store API"""
 import os
 import json
+from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, Response
 from flask_cors import CORS
+
+load_dotenv(find_dotenv())
 
 NOTES_DIR = os.environ.get("NOTES_DIR")
 app = Flask(__name__)
