@@ -9,6 +9,7 @@
 
 <script>
 import marked from 'marked'
+import 'github-markdown-css/github-markdown.css'
 import { getContent, updateContent } from '@/store/api'
 
 export default {
@@ -44,8 +45,6 @@ export default {
   }
 }
 </script>
-
-<style src='github-markdown-css/github-markdown.css'></style>
 
 <style scoped>
 .container {
