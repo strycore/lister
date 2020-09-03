@@ -10,6 +10,7 @@
 <script>
 import marked, { Renderer } from 'marked'
 import hljs from 'highlight.js'
+import 'github-markdown-css/github-markdown.css'
 import 'highlight.js/styles/github.css'
 import { getContent, updateContent } from '@/store/api'
 
@@ -53,8 +54,6 @@ export default {
   }
 }
 </script>
-
-<style src='github-markdown-css/github-markdown.css'></style>
 
 <style scoped>
 .container {
