@@ -1,23 +1,23 @@
 <template>
-<div>
-  <form v-on:submit.prevent='addNewItem'>
+<div class="container">
+  <form class="item form" v-on:submit.prevent='addNewItem'>
     <textarea v-model='content' @change="saveContent" />
   </form>
+  <div class="item display" v-html="compiledMarkdown"></div>
 </div>
 </template>
 
 <script>
+import marked from 'marked'
 import { getContent, updateContent } from '@/store/api'
 
 export default {
   name: 'SyncNote',
-  data: function () {
-    return {
-      folder: '',
-      filename: '',
-      content: []
-    }
-  },
+  data: () => ({
+    folder: '',
+    filename: '',
+    content: ''
+  }),
   created () {
     const path = this.$route.path.split('/')
     this.folder = path[1]
@@ -38,25 +38,43 @@ export default {
     }
   },
   computed: {
-    dragOptions () {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost'
-      }
-    }
+    compiledMarkdown () {
+      return marked(this.content)
+    },
+    dragOptions: () => ({
+      animation: 200,
+      group: 'description',
+      disabled: false,
+      ghostClass: 'ghost'
+    })
   }
 }
 </script>
 
 <style scoped>
-
-textarea {
-  width: 99vw;
-  height: 98vh;
-  padding: 2px;
-  margin: 2px;
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.item {
+  flex-grow: 1;
+  width: 50%;
+}
+.form textarea {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 20px;
+  resize: none;
+  border: none;
+  border-right: solid 1px rgba(0,0,0,0.15);
+}
+.display {
+  padding: 20px;
+  overflow-y: auto;
 }
 ul {
   padding: 0;
