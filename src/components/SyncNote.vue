@@ -8,9 +8,17 @@
 </template>
 
 <script>
-import marked from 'marked'
-import 'github-markdown-css/github-markdown.css'
+import marked, { Renderer } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css'
 import { getContent, updateContent } from '@/store/api'
+
+const renderer = new Renderer()
+renderer.code = (code, language) => {
+  const highlighted = hljs.highlight(language, code).value
+  return `<pre class="hljs"><code class="${language}">${highlighted}</code></pre>`
+}
+marked.setOptions({ renderer })
 
 export default {
   name: 'SyncNote',
@@ -45,6 +53,8 @@ export default {
   }
 }
 </script>
+
+<style src='github-markdown-css/github-markdown.css'></style>
 
 <style scoped>
 .container {
