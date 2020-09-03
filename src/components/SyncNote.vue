@@ -3,7 +3,7 @@
   <form class="item form" v-on:submit.prevent='addNewItem'>
     <textarea v-model='content' @change="saveContent" />
   </form>
-  <div class="item display" v-html="compiledMarkdown"></div>
+  <div class="item markdown-body" v-html="compiledMarkdown"></div>
 </div>
 </template>
 
@@ -40,16 +40,12 @@ export default {
   computed: {
     compiledMarkdown () {
       return marked(this.content)
-    },
-    dragOptions: () => ({
-      animation: 200,
-      group: 'description',
-      disabled: false,
-      ghostClass: 'ghost'
-    })
+    }
   }
 }
 </script>
+
+<style src='github-markdown-css/github-markdown.css'></style>
 
 <style scoped>
 .container {
@@ -72,31 +68,8 @@ export default {
   border: none;
   border-right: solid 1px rgba(0,0,0,0.15);
 }
-.display {
+.markdown-body {
   padding: 20px;
   overflow-y: auto;
-}
-ul {
-  padding: 0;
-  margin: 0;
-}
-.list-group-item {
-  list-style-type: none;
-  padding: 10px;
-  margin: 6px;
-  background-color: rgb(245, 244, 244);
-  border-radius: 4px;
-  text-align: left;
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-}
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
 }
 </style>

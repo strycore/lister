@@ -41,13 +41,14 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 html, body, #app {
   height: 100%;
   width: 100%;
   padding: 0;
   margin: 0;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
 }
 </style>
