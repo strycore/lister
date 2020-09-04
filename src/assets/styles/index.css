@@ -70,7 +70,30 @@ html, body {
 .markdown-body blockquote {
     border-left: 3px solid #01ff70;
     padding-left: 1rem;
-    margin: 
+}
+
+.markdown-body ul {
+    padding-left: 0.75rem;
+    margin-bottom: 1.3rem;
+    list-style: disc;
+    list-style-position: inside;
+}
+
+.markdown-body ul ul {
+    list-style: circle;
+    margin-bottom: 0;
+    list-style-position: inside;
+}
+
+.markdown-body code {
+    color: #222;
+    background: #fefefe;
+    padding: 0.125rem 0.25rem;
+}
+
+.markdown-body pre code {
+    color: unset;
+    background: unset;
 }
 
 .markdown-body img,
