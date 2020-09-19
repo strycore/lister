@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="w-full h-full">
     <SyncTodo v-if="folder == 'todo'"/>
     <SyncList v-if="folder == 'list'"/>
     <SyncNote v-if="folder == 'note'" />
@@ -36,15 +36,3 @@ export default {
   }
 }
 </script>
-
-<style>
-body {
-  margin: 0;
-  padding: 0;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-</style>

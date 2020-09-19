@@ -1,35 +1,58 @@
 <template>
-<div>
-  <form v-on:submit.prevent='addNewItem'>
-    <textarea v-model='content' @change="saveContent" />
-  </form>
-</div>
+  <div class="overflow-hidden w-full h-full flex">
+    <form
+      class="flex-grow-1 w-2/4"
+      v-on:submit.prevent="addNewItem"
+    >
+      <textarea
+        class="w-full h-full p-4"
+        v-model="content"
+        @change="saveContent"
+      />
+    </form>
+
+    <div
+      class="flex-grow-1 w-2/4 overflow-y-auto p-4 markdown-body"
+      v-html="compiledMarkdown"
+    ></div>
+  </div>
 </template>
 
 <script>
+import marked, { Renderer } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai.css'
 import { getContent, updateContent } from '@/store/api'
+
+const renderer = new Renderer()
+renderer.code = (code, language) => {
+  const highlighted = hljs.highlight(language, code).value
+  return `<pre class="hljs"><code class="${language}">${highlighted}</code></pre>`
+}
+
+marked.setOptions({
+  renderer,
+  gfm: true,
+  sanitize: true
+})
 
 export default {
   name: 'SyncNote',
-  data: function () {
-    return {
-      folder: '',
-      filename: '',
-      content: []
-    }
-  },
+  data: () => ({
+    folder: '',
+    filename: '',
+    content: ''
+  }),
   created () {
     const path = this.$route.path.split('/')
     this.folder = path[1]
     this.filename = path[2]
-    if (!this.folder || !this.filename) {
-      return
-    }
+    if (!this.folder || !this.filename) return
     this.loadContent()
   },
   methods: {
     loadContent () {
-      getContent(this.folder, this.filename).then(response => {
+      getContent(this.folder, this.filename).then((response) => {
         this.content = response.data
       })
     },
@@ -38,47 +61,17 @@ export default {
     }
   },
   computed: {
-    dragOptions () {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost'
-      }
+    compiledMarkdown () {
+      return marked(this.content)
     }
   }
 }
 </script>
 
 <style scoped>
-
-textarea {
-  width: 99vw;
-  height: 98vh;
-  padding: 2px;
-  margin: 2px;
-}
-ul {
-  padding: 0;
-  margin: 0;
-}
-.list-group-item {
-  list-style-type: none;
-  padding: 10px;
-  margin: 6px;
-  background-color: rgb(245, 244, 244);
-  border-radius: 4px;
-  text-align: left;
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-}
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
+form textarea {
+  resize: none;
+  border: none;
+  border-right: solid 1px rgba(0, 0, 0, 0.15);
 }
 </style>
